@@ -1,0 +1,8 @@
+# print('hello,world')
+# print(300)
+# print(200+100)
+# print('200+100=',200+100)
+# print('i','am','lilei')
+# name = input('请输入你的名字：')
+# print('hello',name)
+print(1024*768)
