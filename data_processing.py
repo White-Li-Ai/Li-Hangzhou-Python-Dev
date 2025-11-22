@@ -92,9 +92,25 @@ except Exception as e:
 
 #7.保存处理过的数据
 print("\n保存处理后的数据")
+#创建清洗后的副本（添加清洗标志）
+df_processed = df.copy()
+df_processed['数据类别'] = '原始数据（电影）================（筛选淘汰）================'
+#标记高评分电影、热门电影、优质电影
+df_processed.loc[high_rating_movies.index,'数据类别'] = '高评分电影'
+df_processed.loc[popular_movies.index,'数据类别'] = '热门电影'
+df_processed.loc[top_quality_movies.index,'数据类别'] = '优质电影'
+
+# #进行数据类型转换
+df_processed['评分'] = pd.to_numeric(df_processed['评分'],errors='coerce')
+df_processed['评价人数'] = pd.to_numeric(df_processed['评价人数'],errors='coerce')
+# #添加清洗相关的列体现差异
+df_processed['数据状态'] = '已清洗'
+df_processed['评分类别'] = pd.cut(df_processed['评分'],
+                              bins = [0,7,8,9,10],
+                              labels=['一般','良好','优秀','极好'])
 try:
-    df.to_csv('douban_top250_processed.csv',index=False,encoding = 'utf-8-sig')
-    print("c处理后的数据已保存至：douban_top250_processed.csv")
+    df_processed.to_csv('douban_top250_processed.csv',index=False,encoding = 'utf-8-sig')
+    print("处理后的数据已保存至：douban_top250_processed.csv")
 except Exception as e:
     print(f"文件保存时出错:{e}")
 print("\n" + "=" * 60)
