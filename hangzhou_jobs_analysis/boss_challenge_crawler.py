@@ -129,4 +129,65 @@ class BOSSChallengeCrawler:
         except Exception as e:
             print(f"解析失败：{e}")
             return None
-    
+    def analyze_block_reason(self,response):
+        """分析被封锁原因"""
+        print(f"\n反爬虫分析：")
+        print(f"响应头:{dict(response.headers)}")
+        print(f"响应内容前500字符:{response.text[:500]}")
+        if '验证码' in response.text:
+            print("检测到验证码挑战")
+        if 'access denied' in response.text.lower():
+            print("访问被明确拒绝")
+        if 'robot' in response.text.lower():
+            print("被识别为机器人")
+    def analyze_html_response(self,html_content):
+        """分析HTML响应内容"""
+        if len(html_content) < 1000:
+            print(f"简短响应：{html_content}")
+        else:
+            print(f"响应类型：HTML页面(长度:{len(html_content)})")
+            if '<title>' in html_content:
+                title_start = html_content.find('<title>') + 7
+                title_end = html_content.find('<title>')
+                if title_end > title_start:
+                    print(f"页面标题：{html_content[title_start:title_end]}")
+    def save_results(self):
+        """保存结果"""
+        if self.jobs_data:
+            df = pd.DataFrame(self.jobs_data)
+            filename = f'boss_real_jobs_{datetime.now().strftime("%Y%m%d_%H%M")}.csv'
+            df.to_csv(filename,index=False,encoding='utf-8-sig')
+            print(f"数据已保存：{filename}")
+            #数据洞察
+            print(f"\n数据洞察:")
+            print(f"公司数量：{df['公司名称'].nunique()}")
+            print(f"最高薪资:{df[df['平均薪资']>0]['平均薪资'].max() if len(df[df['平均薪资']>0])>0 else 0}k")
+            print(f"热门技能:{','.join(df['技能标签'].str.split(',').explode().value_counts().head(3).index.tolist())}")
+        else:
+            print("无数据可保存")
+def main():
+    """主函数"""
+    print("BOSS直聘真实爬虫挑战")
+    print("注意：这是一个真实爬虫，可能会遇到各种的反爬措施")
+    print("如果失败，将分析每次失败的原因\n")
+    crawler = BOSSChallengeCrawler()
+    #开始挑战
+    input("按Enter键开始挑战...")
+    jobs_data = crawler.crawl_with_real_strategy(
+        city_code='101210100', #杭州
+        keyword='Python',
+        max_pages=3
+    )
+    #保存结果
+    crawler.save_results()
+    #挑战总结
+    if jobs_data:
+        print(f"\n挑战成功！获得{len(jobs_data)}条真实数据")
+        print("这些真实数据将为项目增加巨大价值.")
+    else:
+        print(f"\n 没拿到数据，但尝试很有价值！")
+        print("分析了反爬机制，是成为爬虫专家的必经之路")
+if __name__ == "__main__":
+    main()
+
+
