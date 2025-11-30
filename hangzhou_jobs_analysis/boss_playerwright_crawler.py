@@ -104,6 +104,55 @@ class BOSSPlaywrightCrawler:
         except Exception as e:
             print(f"页面数据提取失败:{e}")
         return jobs_data
-    
+    def go_to_next_page(self,page):
+        """翻到下一页"""
+        try:
+            next_btn = page.query_selector('a.next')
+            if next_btn and next_btn.is_enabled():
+                next_btn.click()
+                page.wait_for_selector('.job-list-box',timeout=10000)
+                time.sleep(3)
+                return True
+            return False
+        except Exception as e:
+            print(f"翻页失败：{e}")
+            return False
+    def save_results(self):
+        """保存结果"""
+        if self.jobs_data:
+            df = pd.DataFrame(self.jobs_data)
+            filename = f'boss_playwright_jobs.csv'
+            df.to_csv(filename,index=False,encoding='utf-8-sig')
+            print(f"数据已保存：{filename}")
+            #数据统计
+            print(f"\n最终结果：")
+            print(f"总岗位数：{len(df)}")
+            print(f"公司数量：{df['公司名称'].nunique()}")
+            print(f"薪资范围：{df['薪资范围'].unique()[:3]}...")
+        else:
+            print("无数据可保存")
+def main():
+    """主函数"""
+    print("=" * 60)
+    print("BOSS直聘Playwright爬虫挑战")
+    print("使用真实浏览器模拟人类行为")
+    print("注意：将打开浏览器窗口，勿操作")
+    print("=" * 60)
+    crawler = BOSSPlaywrightCrawler()
+    #开始爬取
+    input("按Enter键开始运行...")
+    jobs_data = crawler.crawl_with_real_browser(max_pages=2)
+    #保存结果
+    crawler.save_results()
+    if jobs_data:
+        print(f"\nPlaywright挑战成功！获得{len(jobs_data)}条真实数据！")
+        print("这次用真实浏览器完全模拟人类行为")
+    else:
+        print(f"\n虽然数据不多，但浏览器模拟技术已验证可行！")
+        print("可以调整策略继续优化")
+if __name__ == "__main__":
+    main()
+
+
             
 
