@@ -1,4 +1,4 @@
-#BOSS直聘Playerwright爬虫（隐身）-真实完整数据提取版
+#BOSS直聘Playwright爬虫（隐身）-真实完整数据提取版
 from playwright.sync_api import sync_playwright  #浏览器自动化
 import pandas as pd   #数据处理
 import time      #时间控制
