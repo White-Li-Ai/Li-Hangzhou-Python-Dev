@@ -1,5 +1,5 @@
 #增强版爬虫，爬取完整的T250并保存到CSV文件中以便做数据分析
-import requests
+import requests               #引入requests库发送http请求
 from bs4 import BeautifulSoup
 import time
 import pandas as pd
