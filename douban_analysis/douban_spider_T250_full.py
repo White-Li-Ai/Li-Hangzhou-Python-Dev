@@ -1,33 +1,42 @@
 #增强版爬虫，爬取完整的T250并保存到CSV文件中以便做数据分析
 import requests               #引入requests库发送http请求
 from bs4 import BeautifulSoup  #引入html xml数据提取库做页面解析
-import time
-import pandas as pd
+import time                   #导入time模块，用于爬虫延迟（防止被封ip）和时间截获取等时间相关操作
+import pandas as pd            #导入pandas库并重命名为pd，做数据分析和处理的核心库（将爬取的数据保存为csv文件）
 
-def crawl_douban_top250():
-    all_movies = []
-    #循环10页。每页25部电影信息
-    for page in range(10):
-        #计算开始页位置
-        start = page * 25
+def crawl_douban_top250():    #爬取豆瓣电影T250的主函数，功能：遍历10页，爬取所有250电影信息并返回列表 返回值：包含所有电影信息的字典列表
+    all_movies = []               #初始化空列表，用于存储所有爬取到的电影信息
+    #循环10页。每页25部电影信息，T250共十页
+    for page in range(10):    #range(10)生成0-9对应是个页码
+        #计算开始页位置：豆瓣使用start参数控制分页，每页25条
+        start = page * 25        #第0页start=0 第1页start=25以此类推
+        #构造目标URL使用F-string格式化，插入start参数
         url = f'https://movie.douban.com/top250?start={start}&filter='
+        #打印爬取进度展示
         print(f'正在爬取第{page+1}页电影信息...')
+        #设置请求头，模拟浏览器访问，避免被识别为爬虫
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'}
-        #使用try-except捕获可能的异常
+        #使用try-except捕获可能的异常（网络错误、超时、解析错误等）
         try:
+            #发送HTTP GET请求到目标URL headers传递请求头伪装浏览器 timeout=10设置10秒超时，防止长时间等待
             response = requests.get(url,headers=headers,timeout=10)
+            #检查HTTP响应状态码是否为200（成功）
             if response.status_code == 200:
+                #使用BeautifulSoup解析html响应内容，‘html.parser’是python内置的html解析器
                 soup = BeautifulSoup(response.text,'html.parser')
-                #检查是否找到了电影列表
+                #检查是否找到了电影列表，查找多有class属性为‘info’的div元素 每个class=‘info’的div都对应一部电影的信息
                 movie_list = soup.find_all('div',class_='info')
+                #判断时候成功找到电影列表（正常情况下应该有25个）
                 if len(movie_list) > 0:
-                    #解析当前页的25部电影
+                    #解析当前页的25部电影，遍历每个div电影信息
                     for movie in movie_list:
+                        #提取电影中文主标题：查找class=‘tilte’的span标签，获取其文本
                         title = movie.find('span',class_='title').text
+                        #提取评分：查找class=‘rating_num’的span标签
                         rating = movie.find('span',class_='rating_num').text
-                        #获取评价人数
+                        #获取评价人数（因为是html结构需要特殊处理）获取该电影区域的所有span标签
                         spans = movie.find_all('span')
-                        evaluate = "未知"
+                        evaluate = "未知" #默认值，防止找不到时出错
                         for span in spans:
                             if '人评价' in span.text:
                                 evaluate = span.text.replace('人评价','')
