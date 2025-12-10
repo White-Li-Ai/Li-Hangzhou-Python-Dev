@@ -37,44 +37,58 @@ def crawl_douban_top250():    #爬取豆瓣电影T250的主函数，功能：遍
                         #获取评价人数（因为是html结构需要特殊处理）获取该电影区域的所有span标签
                         spans = movie.find_all('span')
                         evaluate = "未知" #默认值，防止找不到时出错
+                        #便利所有span标签，查找包含‘人评价’文本
                         for span in spans:
-                            if '人评价' in span.text:
-                                evaluate = span.text.replace('人评价','')
-                                break
-                        #获取引用语（有可能不存在）
+                            if '人评价' in span.text: #判断是否包含关键字
+                                evaluate = span.text.replace('人评价','')#去除 人评价 文字 
+                                break #找到后立即跳出循环 提高效率
+                        #获取引用语（经典台词、短评 有可能不存在）
+                        #查找class=inq的span标签
                         quote_element = movie.find('span',class_='inq')
+                        #使用三元表达式 如果找到就取文本，否则设为无
                         quote = quote_element.text if quote_element else "无"
-
+                        #将当前电影信息以字典形式添加到总列表
                         all_movies.append({
                             '电影名称':title,
                             '评分':rating,
                             '评价人数':evaluate,
                             '引用语':quote
                         }) 
+                    #打印当前页爬取完成信息
                     print(f'第{page+1}页爬取完成，共{len(movie_list)}部电影')
                 else:
+                    #如果找到了页面但没找到电影列表，可能时页面结构发生了变化，状态码不是200如404 503等
                     print(f'第{page+1}页请求失败，状态码：',response.status_code)
                     #添加延迟，避免请求过快被封ip
-                    time.sleep(3)
-        except Exception as e:
-            print(f'第{page+1}页抓取出错',e)
-            time.sleep(3)
+                    time.sleep(3) #暂停三秒
+        except Exception as e: #捕获所有异常 网络超时、连接错误、解析错误等
+            print(f'第{page+1}页抓取出错',e)#打印错误信息
+            time.sleep(3)#避免频繁请求 出错后也暂停3秒
+    #循环结束，返回包含所有信息的列表
     return all_movies
-#执行爬虫
+#执行爬虫程序的流程开始
 print('开始抓取豆瓣Top250...')
+#调用爬虫函数crawl_douban_top250（），该函数会遍历10页，爬取所有电影信息
+#函数返回一个包含250部电影信息的列表，每个元素时一个字典
 movie_data = crawl_douban_top250()
-#有数据才保存
+#有数据才保存 检查爬虫是否成功获取到数据即列表不为空
 if movie_data:
-    #显示统计信息
+    #显示统计信息 使用f-string格式化输出{len...}会被替换为实际数量
     print(f'\n===抓取完成！共抓取{len(movie_data)}部电影')
-    #保存到csv文件
+    #将电影数据列表转换为panadas dataframe，便于数据分析 
+    #dartaframe时pandas的核心数据结构，类似于excel表格
     df = pd.DataFrame(movie_data)
+    #将dataframe保存为csv文件，参数说明：douban_...是保存文件名 index=false是不保存dataframe的索引列(0,1,2...) utf-8-sig是使用bom的utf-8编码，确保打开时中文部乱码
     df.to_csv('douban_top250.csv',index=False,encoding='utf-8-sig')
+    #提示保存成功
     print('数据已保存到douban_top250.csv')
-    #显示前5条数据预览
+    #显示前5条数据预览，快速了解数据格式和内容
     print('\n前5部电影信息:')
+    #df.head（）返回dataframe的前5行，默认显示所有列
     print(df.head())
 else:
+    #如果爬虫返回空列表，movie_data为空，说明爬取失败
     print('\n===抓取失败！可能被反爬虫了===')
+    #给出排查建议
     print('建议过一段时间再试,或使用代理ip')
 
