@@ -1,43 +1,54 @@
 #对之前爬取的豆瓣t250做数据处理
 
-import pandas as pd
-import json
+import pandas as pd #导入pandas库，这是python数据分析和处理的核心库，通常简写为pd
+import json #导入json模块，用于json数据的编码和解码
 
-print("===豆瓣t250数据处理开始===")
-print("使用的数据文件为：douban_top250.csv")
-print("=" * 60)
+print("===豆瓣t250数据处理开始===") #打印程序开始标志
+print("使用的数据文件为：douban_top250.csv")#显示正在使用的数据文件名称
+print("=" * 60)#美化输出界面
 
-#1 用pandas读写CSV文件
+#1 用pandas读取CSV文件
 print("步骤一：读取CSV数据...")
+#使用try-except结构处理文件读取可能出现的异常
 try:
+    #使用pandas的read_csv函数读取csv文件
+    #默认参数：逗号分隔，第一行为列名utf-8编码
     df = pd.read_csv('douban_top250.csv')
+    #成功读取后显示数据形状 df.shape返回（行数，列数）的元组
     print(f"成功读取该文件！数据形状：{df.shape}")
+    #显示数据列名df.colums是列名索引，转换为列表显示
     print(f"列名：{list(df.columns)}")
-except FileExistsError:
+#捕获文件不存在的异常
+except FileNotFoundError: #
     print("错误：找不到douban_top250.csv文件")
     print("请确保文件在正确目录下")
-    exit()
+    exit() #文件不存在，程序退出
+#捕获其他异常
 except Exception as e:
-    print(f"读取文件时出错：{e}")
-    exit()
+    print(f"读取文件时出错：{e}")#打印错误信息
+    exit()#发生错误 程序退出
 
 #2 数据预览（数据查看）
-print("\n 步骤2：数据预览")
-print("前3行数据为：")
+print("\n步骤2：数据预览")
+print("前3行数据为：")#显示前三行
+#df.head（3）返回dataframe的前三行，默认显示所有列
 print(df.head(3))
 
 #3 数据信息检查
-print("\n 数据基本信息")
+print("\n数据基本信息")
+#df.info()显示dataframe的详细信息 每列的非空值数量、每列的数据类型、内存使用量
 print(df.info())
 
-#4 数据清洗与转换（数据处理）
+#4 数据清洗与转换（数据处理核心步骤）
 print("\n 数据清洗与转换...")
 
-#检查并转换数据类型
+#检查并转换数据类型 先查看原始数据类型
 print("转换前的数据类型：")
+#df.dtypes返回每列的数据类型（series对象）
 print(df.dtypes)
 
-#将评分转换为数值类型
+#将评分转换为数值类型 原csv中可能是字符串、pd.to_numeric()将参数转换为数值类型
+#errors=coerce表示转换失败时设为none空值，而不是抛出异常
 df['评分'] = pd.to_numeric(df['评分'],errors='coerce')
 
 #将评价人数转换为数值类型（处理可能的字符串）
