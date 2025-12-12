@@ -51,48 +51,62 @@ print(df.dtypes)
 #errors=coerce表示转换失败时设为none空值，而不是抛出异常
 df['评分'] = pd.to_numeric(df['评分'],errors='coerce')
 
-#将评价人数转换为数值类型（处理可能的字符串）
+#将评价人数转换为数值类型是否为‘object’（处理可能的字符串）
+#pandas中object类型通常表示字符串或混合类型
 if df['评价人数'].dtype == 'object':
+    #对评价人数列进行字符串清洗 1.astype(str) 确保所有值为字符串类型；.str.replace('人评价','')移除文本中人评价字样（100人评价==100）；3.str.srtip（）去除首尾空白字符 
     df['评价人数'] = df['评价人数'].astype(str).str.replace('人评价','').str.strip()
+#将清洗后的‘评价人数’转换为数值类型（整数或浮点数）pd.to_numeric()：将参数转换为数值；errors=coerce 转换失败时设为none空值，而不是抛出异常
 df['评价人数'] = pd.to_numeric(df['评价人数'],errors='coerce')
-
+#打印转换后的各列数据类型，确认转换成功
 print("\n转换后的数据类型：")
+#df.dtypes返回一个series，显示每列的数据类型
 print(df.dtypes)
 
-#检查清洗结果
+#检查清洗结果 数据质量检查 评估数据完整性
 print(f"\n数据质量检查：")
+#df.isnull().sum().sum() df.isnull返回布尔dataframe（true表示空值）.sum（）按列统计控制数量（第一次）.sum（）再对所有列求和（第二次）得到总空值数
 print(f" -缺失值数量:{df.isnull().sum().sum()}")
+#df.duplicated().sum()  df.duplicated()返回布尔series true表示重复行  .sum（）统计true的数量，即重复行总数
 print(f" -重复值数量:{df.duplicated().sum()}")
 
 #5 数据筛选（验收标准核心）
 print("\n数据筛选(验收标准)")
 
 #筛选一：高评分电影(>=9.0)
+#df[df['评分'] >=9.0]布尔索引，选择评分列>=9.0的行
 high_rating_movies = df[df['评分'] >=9.0]
 print(f"一. 评分9.0及以上的电影：{len(high_rating_movies)}部:")
+#显示筛选结果的前几行，只选取电影名称和评分两列
 print(high_rating_movies[['电影名称','评分']].head())
 
 #筛选二:热门电影（评价人数超100万）
+#先检查评价人数列是否存在，避免keyerror
 if '评价人数' in df.columns:
+    #df[df['评价人数'] > 1000000] 布尔索引，选择>1000000的行
     popular_movies = df[df['评价人数'] > 1000000]
     print(f"\n二. 评价人数过百万的电影有{len(popular_movies)}部:")
+    #显示前几行，只选取电影名称和评价人数两列
     print(popular_movies[['电影名称','评价人数']].head())
 
-#筛选三：多重条件筛选
+#筛选三：多重条件筛选（优质电影 评分大于等于8.5且评价人数大于50万）
+#使用括号分组条件，&表示逻辑与（and）
 if '评价人数' in df.columns:
+    #df[(df['评分'] >= 8.5) & (df['评价人数'] > 500000)]：复合条件
     top_quality_movies = df[(df['评分'] >= 8.5) & (df['评价人数'] > 500000)]
     print(f"\n三. 评分超8.5评价人数超五十万的电影有{len(top_quality_movies)}部：")
+    #显示前十行，选择三列信息
     print(top_quality_movies[['电影名称','评分','评价人数']].head(10))
 
-#6 JSON数据处理(JSON库解析)
+#6 JSON数据处理(JSON库解析)将dataframe转换为json格式
 print("\n JSON数据处理:")
-#将筛选结果转换为JSON
-#取前五条作为示例
+#将筛选结果转换为JSON格式 取前五条记录 df.head（5）表示取dataframe的前五行 只选择 电影名称和评分这两列
 sample_data = df.head(5)[['电影名称','评分']]
+#将dataframe转换为json字符串 sample_data.to_json：dataframe转json的方法；orient=records ：json格式为记录数组，[{"col1":val1,"col2":val2,...}]；force_ascii=false：允许非ascii字符如中文原样输出；indent=2：缩进2空格，美化输出格式
 json_data = sample_data.to_json(orient = 'records',force_ascii = False,indent = 2) 
 print("将前五条记录转换为JSON格式:")
-print(json_data)
-print("\n解析JSON数据:")
+print(json_data) #打印json字符串
+print("\n解析JSON数据:")#打印提示操作
 try:
     parsed_data = json.loads(json_data)
     print(f"解析后获得{len(parsed_data)}条记录")
