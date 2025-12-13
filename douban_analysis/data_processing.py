@@ -107,40 +107,56 @@ json_data = sample_data.to_json(orient = 'records',force_ascii = False,indent = 
 print("将前五条记录转换为JSON格式:")
 print(json_data) #打印json字符串
 print("\n解析JSON数据:")#打印提示操作
+#尝试解析json数据，将json字符串转换为pyhton数据结构
 try:
+    #json.loads():将json格式的字符串解析为python对象（通常是列表或字典）；json_data是前面生成的json字符串
     parsed_data = json.loads(json_data)
+    #显示解析后的数据记录数量
     print(f"解析后获得{len(parsed_data)}条记录")
+    #遍历解析后的数据，enumerate（parsed_data,1）：enumerate（）：同时获取索引和元素；start=1：索引从1开始（默认从0开始）
     for i,item in enumerate(parsed_data,1):
+        #打印每条记录，i是序号，item是字典形式的电影数据
         print(f"记录{i}:{item}")
 except Exception as e:
+    #铺货json解析过程中可能出现的任何异常 常见错误json格式不正确、编码问题等
     print(f"解析JSON出错:{e}")
 
-#7.保存处理过的数据
+#7.保存处理过的数据 最后步骤
 print("\n保存处理后的数据")
-#创建清洗后的副本（添加清洗标志）
+#创建清洗后的副本（添加清洗标志），避免修改原始dataframe df.copy():创建df的深拷贝，后续修改不影响原始数据
 df_processed = df.copy()
+#添加新列 数据类别 用于标记数据的分类状态 初始值设为 “原始数据（电影）================（筛选淘汰）================”这个长字符串作为未分类数据的默认标记 
 df_processed['数据类别'] = '原始数据（电影）================（筛选淘汰）================'
-#标记高评分电影、热门电影、优质电影
+#标记高评分电影：将high....movies对应的行标记为高评分电影 其中 high...movies.index是高评分电影在原始df中的索引；通过loc选择这些行和数据类别这个列，赋值为高评分电影
 df_processed.loc[high_rating_movies.index,'数据类别'] = '高评分电影'
+#标记热门电影：将popular_movies对应的行标记为热门电影
 df_processed.loc[popular_movies.index,'数据类别'] = '热门电影'
+#标记优质电影：将top...movies对应的行标记为优质电影
 df_processed.loc[top_quality_movies.index,'数据类别'] = '优质电影'
 
-# #进行数据类型转换
+#进行数据类型转换 将评分列转换为数值类型，errors=coerce：将无法转换的设为none
 df_processed['评分'] = pd.to_numeric(df_processed['评分'],errors='coerce')
+#将评价人数列转换为数值类型
 df_processed['评价人数'] = pd.to_numeric(df_processed['评价人数'],errors='coerce')
-# #添加清洗相关的列体现差异
+#添加清洗相关的列体现数据处理的过程：添加数据状态列，所有行标记为已清洗
 df_processed['数据状态'] = '已清洗'
+#添加评分类别列，将评分分段归类 pd.cut()将连续数值分段为离散类别；df_processed['评分类别']：要分段的数据列；bins=[0，...]分段边界，分为四段0-7，7-8...；labels=[一般..]：每段的标签名称；分段是左开右闭区间，如7属于(0-7]，标记为一般
 df_processed['评分类别'] = pd.cut(df_processed['评分'],
                               bins = [0,7,8,9,10],
                               labels=['一般','良好','优秀','极好'])
+#尝试将处理后的数据保存到csv文件
 try:
+    #df_processed.to_csv()将dataframe保存为csv文件： ‘douban..csv’：保存的文件名；index=flase 不保存索引0，1，2...；encoding=utf-8-sig：使用带BOM的utf-8编码，确保excel打开中文不乱码
     df_processed.to_csv('douban_top250_processed.csv',index=False,encoding = 'utf-8-sig')
     print("处理后的数据已保存至：douban_top250_processed.csv")
 except Exception as e:
+    #捕获文件保存过程中可能出现的异常 常见错误 文件被占用，磁盘空间不足，权限问题等
     print(f"文件保存时出错:{e}")
+#打印结束分割线和任务完成总结
 print("\n" + "=" * 60)
 print("数据处理任务已完成！")
 print("验收标准达成：")
+#逐条列出已完成的验收标准
 print("已用pandas读写CSV文件")
 print("已进行数据清洗和类型转换") 
 print("已使用pandas进行数据筛选")
