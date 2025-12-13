@@ -1,4 +1,4 @@
-#对之前爬取的豆瓣t250做数据处理
+#对之前爬取的豆瓣t250做数据处理并保存文件
 
 import pandas as pd #导入pandas库，这是python数据分析和处理的核心库，通常简写为pd
 import json #导入json模块，用于json数据的编码和解码
