@@ -1,4 +1,4 @@
-#对之前爬取的豆瓣top250数据进行进一步处理（Top10电影图、散点图、数据洞察分析）
+#对之前爬取的豆瓣top250数据进行进一步的处理（Top10电影图、散点图、数据洞察分析）
 #导入必要的库
 import pandas as pd #数据处理库
 from pyecharts.charts import Bar,Scatter,Page  #导入三种图表类型：柱状图、散点图、组合页面
@@ -53,7 +53,7 @@ print("创建评分vs评价人数散点图...")
 scatter_data = []
 for _,row in df.iterrows():
     scatter_data.append([row['评价人数'],row['评分'],row['电影名称']])
-# 按数据类别着色
+# 按数据类别进行着色
 colors = {
     '优质电影':'#c23531',
     '高评分电影':'#2f4554',
