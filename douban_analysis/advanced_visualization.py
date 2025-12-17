@@ -79,7 +79,7 @@ scatter = (
         ),
     )
     .set_series_opts(
-        itemstyle_opts = opts.ItemStyleOpts(opacity=0.7) #设置透明度
+        itemstyle_opts = opts.ItemStyleOpts(opacity=0.7) #设置透明度为0.7
     )
 )
 
