@@ -10,7 +10,7 @@ df = pd.read_csv('douban_top250_processed.csv')
 #确保数值列的数据类型正确(防止csv读取时变成字符串)，pd.to_numeric()将列转换为数值类型；errors=coerce：转换失败的值设为NaN空值，而不是抛出异常
 df['评分'] = pd.to_numeric(df['评分'],errors='coerce')
 df['评价人数'] = pd.to_numeric(df['评价人数'],errors='coerce')
-#提示用户数据处理完成，开始可视化阶段
+#提示用户数据处理阶段完成，开始可视化阶段
 print("数据加载完成，开始创建可视化图表...")
 
 #1 创建评分Top10电影柱状图
