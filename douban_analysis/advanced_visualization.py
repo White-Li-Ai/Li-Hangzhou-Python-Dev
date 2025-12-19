@@ -22,9 +22,9 @@ top10_movies['显示名称'] = top10_movies['电影名称'].str[:8] + '...'
 #创建柱状图对象
 bar_top10 = (
     Bar()  #初始化柱状图
-    #添加X轴数据 使用处理后的显示名称列表
+    #添加X轴的数据 使用处理后的显示名称列表
     .add_xaxis(top10_movies['显示名称'].tolist())
-    #添加Y轴数据 评分列表；使用列表推导式确保所有评分都是float类型；float（score）将pandas的float64转换为pyhton原生float
+    #添加Y轴的数据 评分列表；使用列表推导式确保所有评分都是float类型；float（score）将pandas的float64转换为pyhton原生float
     .add_yaxis("评分",[float(score) for score in top10_movies['评分'].tolist()])
     #设置全局配置选项
     .set_global_opts(
