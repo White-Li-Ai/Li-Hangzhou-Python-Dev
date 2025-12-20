@@ -28,11 +28,11 @@ bar_top10 = (
     .add_yaxis("评分",[float(score) for score in top10_movies['评分'].tolist()])
     #设置全局配置选项
     .set_global_opts(
-        #标题配置：标题居中显示
+        #对标题进行配置：标题居中显示
         title_opts = opts.TitleOpts(title="豆瓣TOP10高评分电影",pos_left="center"),
-        #X轴配置：旋转X轴标签45度，避免长名称重叠
+        #对X轴进行配置：旋转X轴标签45度，避免长名称重叠
         xaxis_opts = opts.AxisOpts(axislabel_opts=opts.LabelOpts(rotate=45)),
-        #Y轴配置：name=评分：设置Y轴名称；min_=9.0 Y轴最小值从9.0开始，因为Top10评分都很高 这样可以更好地展示高评分之间的细微差异
+        #对Y轴进行配置：name=评分：设置Y轴名称；min_=9.0 Y轴最小值从9.0开始，因为Top10评分都很高 这样可以更好地展示高评分之间的细微差异
         yaxis_opts = opts.AxisOpts(name="评分",min_=9.0), #从九分开始显示
     )
     #设置数据系列配置选项
