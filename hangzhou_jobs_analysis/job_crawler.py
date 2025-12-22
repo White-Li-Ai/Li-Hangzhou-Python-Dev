@@ -1,5 +1,5 @@
 #Boss直聘Python相关岗位数据爬虫（保守策略版）
-import requests
+import requests #导入request请求库
 import pandas as pd
 import time
 import random
