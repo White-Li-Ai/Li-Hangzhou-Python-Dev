@@ -1,24 +1,39 @@
-#Boss直聘Python相关岗位数据爬虫（保守策略版）
-import requests #导入request请求库
-import pandas as pd
-import time
-import random
-import json
-from datetime import datetime
+#Boss直聘Python相关岗位数据爬虫（保守策略版）采用保守策略，避免过于激进的爬取导致IP被封
 
+import requests        #导入request库，用于发送http请求
+import pandas as pd    #导入pandas库，用于数据处理和存储
+import time            #导入time库，用于控制请求间隔和延时
+import random          #导入random库，用于生成随即延时，模拟人类操作
+import json            #导入json库，用于JSON数据处理
+from datetime import datetime  #导入datetime模块，用于获取当前时间戳
+
+#定义BOSSCrawler类，采用面向对象编程oop设计，类的好处：封装爬虫逻辑，便于维护和拓展，可以创建多个实例
 class BOSSCrawler:
+    #__init__是类的构造函数，在创建类实例时自动调用
     def __init__(self):
+        #创建request.Session()对象
+        #Session可以保持会话状态，自动处理cookies，比单独的requests.get（）更高效
         self.session = requests.Session()
+        #调用set_headers方法设置请求头
         self.set_headers()
+        #初始化jobs_data列表，用于存储爬取到的所有岗位数据
+        #使用列表存储字典，每个字典代表一个岗位的信息
         self.jobs_data = []
     def set_headers(self):
         """设置真实的浏览器请求头"""
+        #使用session.headers.update（）方法批量更新请求头，模拟真实浏览器访问，减少被识别为爬虫的风险
         self.session.headers.update({
+            #user-agent：浏览器标识，是最重要的反爬虫伪装
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+            #accept：告诉服务器客户端可以接受的内容类型，application/json：优先接受json格式，text/plain，*/* ：也可以接收纯文本和其他所有类型
             'Accept': 'application/json, text/plain, */*',
+            #语言偏好，中文优先，英文其次
             'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+            #accept-encoding：支持的压缩格式 支持gzip，deflate，brotli压缩
             'Accept-Encoding': 'gzip, deflate, br',
+            #connection：连接方式，keep-alive表示保持长连接
             'Connection': 'keep-alive',
+            #referer来源页面，模拟从boss直聘官网跳转而来
             'Referer': 'https://www.zhipin.com/',
         })
     def crawl_pyhton_jobs(self,city='杭州',max_pages=3):
