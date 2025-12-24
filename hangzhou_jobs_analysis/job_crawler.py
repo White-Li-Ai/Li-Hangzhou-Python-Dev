@@ -55,6 +55,7 @@ class BOSSCrawler:
                 print(f"第{page}页获取成功，获得{len(page_data)}条数据")
                 #每爬一页保存一次，防止数据丢失
                 self.save_to_csv()
+            #异常检查
             except Exception as e:
                 print(f"第{page}页爬取失败：{e}")
                 break
