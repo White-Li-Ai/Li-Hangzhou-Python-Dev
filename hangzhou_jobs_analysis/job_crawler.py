@@ -40,26 +40,39 @@ class BOSSCrawler:
         """
         爬取Python相关岗位
         保守策略：先少量爬取，验证可行性
+        参数:city(str)目标城市，默认为杭州 max_pages(int):最大爬取页数,默认为3页(保守策略)
+        返回:list:包含所有爬取到的岗位数据的列表
         """
+        #打印开始爬取的提示信息
         print(f"开始爬取{city}Python相关岗位数据...")
+        #使用for循环遍历每一页，range(1,max_pages+1)生成从1到max_pages的整数 eg:max_pages=3，循环1，2，3
         for page in range(1,max_pages + 1):
+            #显示当前爬取的页码
             print(f"正在爬取第{page}页...")
+            #使用try-expect结构捕获爬取过程中可能出现的异常
             try:
-                #随机延时3-8秒
+                #随机延时3-8秒：模拟人类浏览行为，避免请求频率过高被封ip；random.uniform（3，8）随机生成3-8之间的瑞吉浮点数(秒)
                 delay = random.uniform(3,8)
+                #time.sleep()：程序暂停指定秒数
                 time.sleep(delay)
-
-                #这里使用模拟数据代替真实请求（避免立即被封）
+                #这种延时策略是反爬虫的基本手段之一
+                #这里使用模拟数据代替真实请求（避免立即被封），调用私有方法_get_mock_page_data生成模拟数据；保守策略：先用模拟数据测试流程，避免真实请求触发反爬
                 page_data = self._get_mock_page_data(page,city)
+                #将当前页获取的数据添加到总数据列表中；extend()：将page_data列表中的所有元素添加到self.jobs_data末尾；与append区别：append()添加整个列表作为单个元素，extend()展开添加
                 self.jobs_data.extend(page_data)
+                #打印当前页爬取成功的反馈信息
                 print(f"第{page}页获取成功，获得{len(page_data)}条数据")
-                #每爬一页保存一次，防止数据丢失
+                #每爬一页保存一次，防止数据丢失 数据持久化策略：即使后续爬取出错，已经爬取的数据不会丢失
                 self.save_to_csv()
-            #异常检查
+            #异常处理：捕获爬取过程中可能出现的任何异常
             except Exception as e:
+                #打印错误信息，包含页码和具体错误
                 print(f"第{page}页爬取失败：{e}")
+                #break：终止循环，不再继续爬取后续页面 保守策略：一旦出错就停止，避免触发更严格的反爬机制
                 break
+        #循环结束后，打印爬取总结信息
         print(f"\n 爬取完成，共获得{len(self.jobs_data)}条岗位数据")
+        #返回爬取到的所有数据
         return self.jobs_data
     def _get_mock_page_data(self,page,city):
         """生成模拟数据（用于测试分析流程）"""
