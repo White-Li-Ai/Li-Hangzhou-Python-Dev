@@ -75,30 +75,43 @@ class BOSSCrawler:
         #返回爬取到的所有数据
         return self.jobs_data
     def _get_mock_page_data(self,page,city):
-        """生成模拟数据（用于测试分析流程）"""
-        #这些是真实杭州互联网公司
+        """生成模拟数据（用于测试分析流程）参数：page(int)当前页码；city（str）目标城市名称 返回list包含10个模拟岗位数据的列表"""
+        #私有方法，表示仅在类内部使用
+        #定义杭州真实存在的互联网公司列表
         companies = ['阿里巴巴','网易','字节跳动','华为杭州研究所','海康威视',
                      '滴滴杭州','蘑菇街','有赞','同花顺','恒生电子']
+        #定义pyhton常见的相关岗位名称
         positions = ['Pyhton开发工程师','后端开发工程师(Python)','Python全栈工程师',
                      '数据开发工程师(Python)','AI算法工程师(Pyhton)',
                      'Python爬虫工程师']
-        #生成一页模拟数据
+        #初始化当前页的模拟数据列表，这个列表将存储10个模拟的岗位信息字典
         page_data = []
-        #每页10条
+        #循环生成10条模拟数据，模拟boss直聘每页显示10个岗位，range（10）生成0-9数字，循环10次
         for i in range(10):
+            #创建一个岗位信息的字典
             job = {
+                #从positions列表中随机选择一个
                 '职位名称':random.choice(positions),
+                #从companies列表中随机选择一个
                 '公司名称':random.choice(companies),
+                #随机生成
                 '薪资范围':f"{random.randint(15,25)}k-{random.randint(25,40)}k",
+                #随机生成
                 '工作经验':f"{random.randint(1,5)}年",
+                #随机生成
                 '学历要求':random.choice(['本科','大专','硕士']),
+                #随机生成
                 '公司地点':f"{city}{random.choice(['余杭区','西湖区','滨江区','萧山区'])}",
+                #以下字符串是固定的，模拟真实岗位的技能描述
                 '技能要求':'Python,Django,Flask,MySQL,Linux',
                 '福利待遇':'五险一金，补充医疗保险，年终奖，带薪年假',
                 '数据来源':'BOSS直聘',
+                #记录数据生成的时间戳 datetime.now()获取当前时间
                 '爬取时间':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
+            #将生成的岗位字典添加到当前页的数据列表中，oppend()方法将job字典作为一个元素添加到page_data列表末尾
             page_data.append(job)
+        #返回包含10个模拟岗位数据的列表
         return page_data
     def save_to_csv(self):
         """保存数据到CSV文件"""
