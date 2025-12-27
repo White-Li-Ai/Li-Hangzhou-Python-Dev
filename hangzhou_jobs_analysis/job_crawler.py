@@ -114,7 +114,9 @@ class BOSSCrawler:
         #返回包含10个模拟岗位数据的列表
         return page_data
     def save_to_csv(self):
-        """保存数据到CSV文件"""
+        """保存数据到CSV文件
+        功能：将当前爬取到岗位数据保存为csv格式文件
+        """
         if self.jobs_data:
             df = pd.DataFrame(self.jobs_data)
             df.to_csv('hangzhou_python_jobs.csv',index=False,encoding='utf-8-sig')
