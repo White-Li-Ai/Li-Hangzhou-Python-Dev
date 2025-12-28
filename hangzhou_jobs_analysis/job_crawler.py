@@ -115,7 +115,7 @@ class BOSSCrawler:
         return page_data
     def save_to_csv(self):
         """保存数据到CSV文件
-        功能：将当前爬取到岗位数据保存为csv格式文件
+        功能：将当前爬取到岗位数据保存为csv格式的文件
         """
         if self.jobs_data:
             df = pd.DataFrame(self.jobs_data)
