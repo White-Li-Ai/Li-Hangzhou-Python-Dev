@@ -96,7 +96,7 @@ class BOSSCrawler:
                 '公司名称':random.choice(companies),
                 #随机生成薪资范围
                 '薪资范围':f"{random.randint(15,25)}k-{random.randint(25,40)}k",
-                #随机生成
+                #随机生成工作经验年限
                 '工作经验':f"{random.randint(1,5)}年",
                 #随机生成
                 '学历要求':random.choice(['本科','大专','硕士']),
