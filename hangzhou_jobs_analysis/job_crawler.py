@@ -98,7 +98,7 @@ class BOSSCrawler:
                 '薪资范围':f"{random.randint(15,25)}k-{random.randint(25,40)}k",
                 #随机生成工作经验年限
                 '工作经验':f"{random.randint(1,5)}年",
-                #随机生成
+                #随机生成学历要求
                 '学历要求':random.choice(['本科','大专','硕士']),
                 #随机生成
                 '公司地点':f"{city}{random.choice(['余杭区','西湖区','滨江区','萧山区'])}",
