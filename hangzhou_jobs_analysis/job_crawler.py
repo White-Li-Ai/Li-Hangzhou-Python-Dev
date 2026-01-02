@@ -100,7 +100,7 @@ class BOSSCrawler:
                 '工作经验':f"{random.randint(1,5)}年",
                 #随机生成学历要求
                 '学历要求':random.choice(['本科','大专','硕士']),
-                #随机生成
+                #随机生成公司地点
                 '公司地点':f"{city}{random.choice(['余杭区','西湖区','滨江区','萧山区'])}",
                 #以下字符串是固定的，模拟真实岗位的技能描述
                 '技能要求':'Python,Django,Flask,MySQL,Linux',
