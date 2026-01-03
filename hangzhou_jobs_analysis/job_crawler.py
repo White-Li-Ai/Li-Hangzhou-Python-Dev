@@ -106,7 +106,7 @@ class BOSSCrawler:
                 '技能要求':'Python,Django,Flask,MySQL,Linux',
                 '福利待遇':'五险一金，补充医疗保险，年终奖，带薪年假',
                 '数据来源':'BOSS直聘',
-                #记录数据生成的时间戳 datetime.now()获取当前时间
+                #记录数据生成的时间戳 datetime.now()以获取当前的时间
                 '爬取时间':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
             #将生成的岗位字典添加到当前页的数据列表中，oppend()方法将job字典作为一个元素添加到page_data列表末尾
