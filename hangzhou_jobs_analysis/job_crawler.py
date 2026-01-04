@@ -109,7 +109,7 @@ class BOSSCrawler:
                 #记录数据生成的时间戳 datetime.now()以获取当前的时间
                 '爬取时间':datetime.now().strftime('%Y-%m-%d %H:%M:%S')
             }
-            #将生成的岗位字典添加到当前页的数据列表中，oppend()方法将job字典作为一个元素添加到page_data列表末尾
+            #将生成的岗位字典添加到当前页的数据列表中，用oppend()方法将job字典作为一个元素添加到page_data列表末尾
             page_data.append(job)
         #返回包含10个模拟岗位数据的列表
         return page_data
