@@ -139,7 +139,7 @@ def main():
     crawler = BOSSCrawler()
     #爬取数据
     jobs_data = crawler.crawl_pyhton_jobs(city='杭州',max_pages=2)
-    #显示数据概览
+    #显示数据的概览
     print(crawler.get_data_summary())
     #保存最终数据
     crawler.save_to_csv()
