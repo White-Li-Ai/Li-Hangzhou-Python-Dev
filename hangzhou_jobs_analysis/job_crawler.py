@@ -141,7 +141,7 @@ def main():
     jobs_data = crawler.crawl_pyhton_jobs(city='杭州',max_pages=2)
     #显示数据的概览
     print(crawler.get_data_summary())
-    #保存最终的数据
+    #保存最终的数据为csv文件
     crawler.save_to_csv()
     print("数据已保存至：hangzhou_python_jobs.csv")
 if __name__ == "__main__":
