@@ -1,7 +1,7 @@
 #Boss直聘Python相关岗位数据爬虫（保守策略版）采用保守策略，避免过于激进的爬取导致IP被封
 
 import requests        #导入request库，用于发送http请求
-import pandas as pd    #导入pandas库，用于数据处理和存储
+import pandas as pd    #导入pandas库，用于数据的处理和存储
 import time            #导入time库，用于控制请求间隔和延时
 import random          #导入random库，用于生成随即延时，模拟人类操作
 import json            #导入json库，用于JSON数据处理
