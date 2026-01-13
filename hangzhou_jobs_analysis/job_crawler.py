@@ -7,7 +7,7 @@ import random          #导入random库，用于生成随即延时，模拟人�
 import json            #导入json库，用于JSON数据处理
 from datetime import datetime  #导入datetime模块，用于获取当前的时间戳
 
-#定义BOSSCrawler类，采用面向对象编程oop设计，类的好处：封装爬虫逻辑，以便于维护和拓展，可以创建多个实例
+#定义BOSSCrawler类，采用面向对象编程oop设计，用类的好处：封装爬虫逻辑，以便于维护和拓展，可以创建多个实例
 class BOSSCrawler:
     #__init__是类的构造函数，在创建类实例时自动调用
     def __init__(self):
