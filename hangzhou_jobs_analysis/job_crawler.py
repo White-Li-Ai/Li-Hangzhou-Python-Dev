@@ -17,7 +17,7 @@ class BOSSCrawler:
         #调用set_headers方法设置请求头
         self.set_headers()
         #初始化jobs_data列表，用于存储爬取到的所有岗位的数据
-        #使用列表存储字典，每个字典代表一个岗位的信息
+        #使用列表存储字典，每个字典都代表一个岗位的信息
         self.jobs_data = []
     def set_headers(self):
         """设置真实的浏览器请求头"""
