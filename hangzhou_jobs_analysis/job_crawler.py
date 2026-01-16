@@ -49,7 +49,7 @@ class BOSSCrawler:
         for page in range(1,max_pages + 1):
             #显示当前爬取的页码
             print(f"正在爬取第{page}页...")
-            #使用try-expect结构捕获爬取过程中可能出现的异常
+            #使用try-expect的结构捕获爬取过程中可能出现的异常
             try:
                 #随机延时3-8秒：模拟人类的浏览行为，避免请求频率过高被封ip；random.uniform（3，8）随机生成3-8之间的瑞吉浮点数(秒)
                 delay = random.uniform(3,8)
