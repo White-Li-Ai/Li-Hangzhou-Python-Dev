@@ -84,7 +84,7 @@ class BOSSCrawler:
         positions = ['Pyhton开发工程师','后端开发工程师(Python)','Python全栈工程师',
                      '数据开发工程师(Python)','AI算法工程师(Pyhton)',
                      'Python爬虫工程师']
-        #初始化当前页的模拟数据列表，这个列表将存储10个模拟的岗位信息字典
+        #初始化当前页的模拟数据列表，这个列表将会存储10个模拟的岗位信息字典
         page_data = []
         #循环生成10条模拟数据，模拟boss直聘每页显示10个岗位，range（10）生成0-9数字，循环10次
         for i in range(10):
