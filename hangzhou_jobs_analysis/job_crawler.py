@@ -137,7 +137,7 @@ class BOSSCrawler:
 def main():
     """主函数"""
     crawler = BOSSCrawler()
-    #爬取相关数据
+    #爬取相关的数据
     jobs_data = crawler.crawl_pyhton_jobs(city='杭州',max_pages=2)
     #显示相关数据的概览
     print(crawler.get_data_summary())
