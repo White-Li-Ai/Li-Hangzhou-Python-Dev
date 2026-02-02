@@ -111,7 +111,7 @@ class BOSSCrawler:
             }
             #将生成的岗位字典添加到当前页的数据列表中，用oppend()方法将job字典作为一个元素添加到page_data列表的末尾
             page_data.append(job)
-        #返回包含10个模拟岗位数据的列表
+        #返回包含10个模拟的岗位数据的列表
         return page_data
     def save_to_csv(self):
         """保存数据到CSV文件中
