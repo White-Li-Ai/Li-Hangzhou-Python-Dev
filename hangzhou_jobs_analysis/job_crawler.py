@@ -62,7 +62,7 @@ class BOSSCrawler:
                 self.jobs_data.extend(page_data)
                 #打印当前页爬取成功的反馈信息
                 print(f"第{page}页获取成功，获得{len(page_data)}条数据")
-                #每爬一页保存一次，防止数据丢失 数据持久化策略：即使后续爬取出错，已经爬取的数据不会丢失
+                #每爬取一页保存一次，防止数据丢失 数据持久化策略：即使后续爬取出错，已经爬取的数据不会丢失
                 self.save_to_csv()
             #异常处理：捕获爬取过程中可能出现的任何异常
             except Exception as e:
