@@ -70,7 +70,7 @@ class BOSSCrawler:
                 print(f"第{page}页爬取失败：{e}")
                 #break：终止循环，不再继续爬取后续页面 保守策略：一旦出错就停止，避免触发更严格的反爬机制
                 break
-        #在循环结束后，打印爬取总结信息
+        #在循环结束后，打印爬取总结的信息
         print(f"\n 爬取完成，共获得{len(self.jobs_data)}条岗位数据")
         #返回爬取到的所有数据
         return self.jobs_data
