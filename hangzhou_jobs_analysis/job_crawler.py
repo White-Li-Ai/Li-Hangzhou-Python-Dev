@@ -68,7 +68,7 @@ class BOSSCrawler:
             except Exception as e:
                 #打印错误信息，包含页码和具体错误
                 print(f"第{page}页爬取失败：{e}")
-                #break：终止循环，不再继续爬取后续页面 保守策略：一旦出错就停止，避免触发更严格的反爬机制
+                #break：终止循环，不再继续爬取后续的页面 保守策略：一旦出错就停止，避免触发更严格的反爬机制
                 break
         #在循环结束后，打印爬取总结的信息
         print(f"\n 爬取完成，共获得{len(self.jobs_data)}条岗位数据")
