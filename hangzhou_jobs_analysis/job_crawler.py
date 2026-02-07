@@ -66,7 +66,7 @@ class BOSSCrawler:
                 self.save_to_csv()
             #异常处理：捕获爬取过程中可能出现的任何异常
             except Exception as e:
-                #打印错误信息，包含页码和具体错误
+                #打印错误信息，包含页码和具体的错误
                 print(f"第{page}页爬取失败：{e}")
                 #break：终止循环，不再继续爬取后续的页面 保守策略：一旦出错就停止，避免触发更严格的反爬机制
                 break
