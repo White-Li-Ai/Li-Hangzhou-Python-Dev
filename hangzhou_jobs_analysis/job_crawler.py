@@ -64,7 +64,7 @@ class BOSSCrawler:
                 print(f"第{page}页获取成功，获得{len(page_data)}条数据")
                 #每爬取一页就保存一次，防止数据丢失 数据持久化策略：即使后续爬取出错，已经爬取的数据不会丢失
                 self.save_to_csv()
-            #异常处理：捕获爬取过程中可能出现的任何的异常
+            #异常处理：捕获在爬取过程中可能出现的任何的异常
             except Exception as e:
                 #打印错误信息，包含页码和具体的错误
                 print(f"第{page}页爬取失败：{e}")
