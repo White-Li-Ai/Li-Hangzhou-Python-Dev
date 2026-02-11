@@ -51,11 +51,11 @@ class BOSSCrawler:
             print(f"正在爬取第{page}页...")
             #使用try-expect的结构捕获爬取过程中可能会出现的异常
             try:
-                #随机延时3-8秒：模拟人类的浏览行为，避免请求频率过高而被封ip；random.uniform（3，8）随机生成3-8之间的瑞吉浮点数(秒)
+                #随机延时3-8秒钟：模拟人类的浏览行为，避免请求频率过高而被封ip；random.uniform（3，8）随机生成3-8之间的瑞吉浮点数(秒)
                 delay = random.uniform(3,8)
                 #time.sleep()：程序暂停指定秒数
                 time.sleep(delay)
-                #这种延时策略是反爬虫的基本手段之一
+                #这种延时策略是反爬虫的基本手段之一.
                 #这里使用模拟数据代替真实请求（避免立即被封），调用私有方法_get_mock_page_data生成模拟数据；保守策略：先用模拟数据测试流程，避免真实请求触发反爬
                 page_data = self._get_mock_page_data(page,city)
                 #将当前页获取的数据添加到总数据列表中；extend()：将page_data列表中的所有元素添加到self.jobs_data末尾；与append区别：append()添加整个列表作为单个元素，extend()展开添加
