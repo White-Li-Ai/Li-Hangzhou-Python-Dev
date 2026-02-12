@@ -51,7 +51,7 @@ class BOSSCrawler:
             print(f"正在爬取第{page}页...")
             #使用try-expect的结构捕获爬取过程中可能会出现的异常
             try:
-                #随机延时3-8秒钟：模拟人类的浏览行为，避免请求频率过高而被封ip；random.uniform（3，8）随机生成3-8之间的瑞吉浮点数(秒)
+                #随机延时3-8秒钟：来模拟人类的浏览行为，避免请求频率过高而被封ip；random.uniform（3，8）随机生成3-8之间的瑞吉浮点数(秒)
                 delay = random.uniform(3,8)
                 #time.sleep()：程序暂停指定秒数
                 time.sleep(delay)
