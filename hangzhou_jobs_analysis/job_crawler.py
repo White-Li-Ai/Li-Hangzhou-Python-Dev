@@ -47,7 +47,7 @@ class BOSSCrawler:
         print(f"开始爬取{city}Python相关岗位数据...")
         #使用for循环遍历每一页，range(1,max_pages+1)生成从1到max_pages的整数 eg:max_pages=3，循环1，2，3
         for page in range(1,max_pages + 1):
-            #显示当前爬取的页码
+            #显示当前所爬取的页码
             print(f"正在爬取第{page}页...")
             #使用try-expect的结构捕获爬取过程中可能会出现的异常
             try:
