@@ -43,9 +43,9 @@ class BOSSCrawler:
         参数:city(str)目标城市，默认为杭州 max_pages(int):最大爬取页数,默认为3页(保守策略)
         返回:list:包含所有爬取到的岗位数据的列表
         """
-        #打印开始爬取的提示信息
+        #打印开始爬取的提示信息等
         print(f"开始爬取{city}Python相关岗位数据...")
-        #使用for循环遍历每一页，range(1,max_pages+1)生成从1到max_pages的整数 eg:max_pages=3，循环1，2，3
+        #使用for循环遍历每一页面，range(1,max_pages+1)生成从1到max_pages的整数 eg:max_pages=3，循环1，2，3
         for page in range(1,max_pages + 1):
             #显示当前所爬取的页码
             print(f"正在爬取第{page}页...")
@@ -56,7 +56,7 @@ class BOSSCrawler:
                 #time.sleep()：程序暂停指定秒数
                 time.sleep(delay)
                 #这种延时策略是反爬虫的基本手段之一.
-                #这里使用模拟数据代替真实请求（避免立即被封），调用私有方法_get_mock_page_data生成模拟数据；保守策略：先用模拟数据测试流程，避免真实请求触发反爬
+                #这里使用模拟的数据代替真实请求（避免立即被封），调用私有方法_get_mock_page_data生成模拟数据；保守策略：先用模拟数据测试流程，避免真实请求触发反爬
                 page_data = self._get_mock_page_data(page,city)
                 #将当前页获取的数据添加到总数据列表中；extend()：将page_data列表中的所有元素添加到self.jobs_data末尾；与append区别：append()添加整个列表作为单个元素，extend()展开添加
                 self.jobs_data.extend(page_data)
