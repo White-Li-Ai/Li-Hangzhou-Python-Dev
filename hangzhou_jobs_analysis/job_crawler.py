@@ -43,7 +43,7 @@ class BOSSCrawler:
         参数:city(str)目标城市，默认为杭州 max_pages(int):最大爬取页数,默认为3页(保守策略)
         返回:list:包含所有爬取到的岗位数据的列表
         """
-        #打印开始爬取的提示信息等
+        #打印开始爬取的提示信息等字码
         print(f"开始爬取{city}Python相关岗位数据...")
         #使用for循环遍历每一页面，range(1,max_pages+1)生成从1到max_pages的整数 eg:max_pages=3，循环1，2，3
         for page in range(1,max_pages + 1):
